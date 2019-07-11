@@ -24,6 +24,10 @@ export class ProductListComponent implements OnInit {
     this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
   }
 
+  onNotify(message: string): void {
+    
+  }
+
   products: IProduct[] = [
     {
       "productId": 1,
