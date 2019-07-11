@@ -98,6 +98,10 @@ export class ProductListComponent implements OnInit {
     this.listFilter = 'cart';
   }
 
+  onRatingCliked(message: string): void {
+    this.pageTitle = 'Product List: ' + message;
+  }
+
   toggleImage(): void {
     this.showImage = !this.showImage;
   }

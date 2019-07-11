@@ -17,7 +17,7 @@ export class StarComponent implements OnChanges {
   }
 
   onClick() {
-    this.ratingClicked.emit('clicked!');
+    this.ratingClicked.emit(`${this.rating} clicked!`);
   }
 
 }
