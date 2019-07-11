@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IProduct } from './products';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'pm-products',
@@ -11,9 +13,18 @@ export class ProductListComponent implements OnInit {
   imageWidth: number = 50;
   imageMargin: number = 2;
   showImage:boolean = false;
-  listFilter:string = 'card';
+  filteredProducts: IProduct[];
+  
+  _listFilter: string;
+  get listFilter(): string {
+    return this._listFilter;
+  }
+  set listFilter(value:string) {
+    this._listFilter = value;
+    this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
+  }
 
-  products: any[] = [
+  products: IProduct[] = [
     {
       "productId": 1,
       "productName": "Leaf Rake",
@@ -23,7 +34,7 @@ export class ProductListComponent implements OnInit {
       "cost": 9.00,
       "price": 19.95,
       "category": "garden",
-      "tags": ["leaf", "tool"],
+      "starRating": 2,
       "imageUrl": "http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png"
   },
   {
@@ -35,7 +46,7 @@ export class ProductListComponent implements OnInit {
       "cost": 20.00,
       "price": 32.99,
       "category": "garden",
-      "tags": ["barrow", "cart", "wheelbarrow"],
+      "starRating": 3,
       "imageUrl": "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png"
     },
     {
@@ -47,7 +58,7 @@ export class ProductListComponent implements OnInit {
       "cost": 1.00,
       "price": 8.99,
       "category": "toolbox",
-      "tags": ["tool"],
+      "starRating": 4,
       "imageUrl": "http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png"
     },
     {
@@ -59,7 +70,7 @@ export class ProductListComponent implements OnInit {
       "cost": 6.95,
       "price": 11.55,
       "category": "garden",
-      "tags": ["garden", "mower"],
+      "starRating": 1,
       "imageUrl": "http://openclipart.org/image/300px/svg_to_png/27070/egore911_saw.png"
     },
     {
@@ -71,7 +82,7 @@ export class ProductListComponent implements OnInit {
       "cost": 2.22,
       "price": 35.95,
       "category": "gaming",
-      "tags": ["gaming", "controller", "video game"],
+      "starRating": 5,
       "imageUrl": "http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png"
     }
   ];
@@ -79,10 +90,18 @@ export class ProductListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.filteredProducts =  this.products;
+    this.listFilter = 'cart';
   }
 
   toggleImage(): void {
     this.showImage = !this.showImage;
+  }
+
+  performFilter(filterBy: string): IProduct[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.filter((product: IProduct) =>
+      product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
 }
